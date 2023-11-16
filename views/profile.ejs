@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <title>Reproductive Health Tracker</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1>Go With the Flow</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <!-- <div class="col-sm-6"> -->
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                <% if (user.local.email) { %>
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %>
+                    </p>
+
+                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
+                <% } %>
+
+            </div>
+        <!-- </div> end of col-sm-6-->
+        <!-- <div class="col-sm-6"> -->
+          <h3>Period Details</h3>
+          <ul class="messages">
+          <% for(var i=0; i<messages.length; i++) {%>
+            <li class="message">
+              <span><%= messages[i].currentDate %></span>
+              <span><%= messages[i].periodStatus %></span>
+              <span><%= messages[i].mood %></span>
+              <span><%= messages[i].sleep %></span>
+              <span><%= messages[i].physical %></span>
+              <span><%= messages[i].water %></span>
+              <span><%= messages[i].sexual %></span>
+              <span>
+                <form action="/messages/mood?_method=PUT" method="POST">
+                  <input type="hidden" name="id" value="<%= messages[i]._id %>">
+                  <label for="mood">How are you feeling</label>
+                  <input type="text" placeholder="How are you feeling?" name="mood" id="mood" required>
+                  <label for="physical">How did you move today</label>
+                  <input type="text" placeholder="Physical Activity" name="physical" id="physical" required>
+                  <label for="sleep">Sleep</label>
+                  <input type="number" placeholder="Hours" name="sleep" id="sleep" required>
+                  <label for="water">Water Intake</label>
+                  <input type="number" placeholder="OZ" name="water" id="water" required>
+                  <label for="sexual">Sexual Activity</label>
+                  <select id="sexual" name="sexual" required>
+                    <option value="None">None</option>
+                    <option value="Partnered">Protected Partnered</option>
+                    <option value="Unprotected Partnered">Unprotected Partnered</option>
+                    <option value="Solo">Solo</option>
+                  </select>
+                  <button type="submit">Submit</button>
+                </form>
+              </span>
+              <span><button class="fa fa-trash" aria-hidden="true" data-id="<%= messages[i]._id %>">Delete</button></span>
+            </li>
+          <% } %>
+          </ul>
+
+          <h2>Log your period</h2>
+        <% if (user.local.email) { %>
+          <form action="/messages" method="POST">
+            <input type="datetime-local" name="currentDate" required>
+            <!-- <input type="text" name="periodStatus"> -->
+            <label for="periodStatus">Period Status:</label>
+            <select id="periodStatus" name="periodStatus" required>
+              <option value="No Period">No Period</option>
+              <option value="Period Start">Period Start</option>
+              <option value="Period End">Period End</option>
+              <option value="Period Spotty">Period Spotty</option>
+              <option value="Period Light">Period Light</option>
+              <option value="Period Heavy">Period Heavy</option>
+            </select>
+            <button type="submit">Submit</button>
+          </form>
+        <!-- </div> end of col-sm-6-->
+        <% } %>
+
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
