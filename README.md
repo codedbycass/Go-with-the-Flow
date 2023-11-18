@@ -1,5 +1,7 @@
 # Go with the Flow: A Full Stack Reproductive Health Tracker App
 
+![giphy](https://github.com/codedbycass/Go-with-the-Flow/assets/122684139/cc83ee2b-5a6e-45df-9075-90b47a7d1f74)
+
 ## Overview
 
 ### What
