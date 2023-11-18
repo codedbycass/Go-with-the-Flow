@@ -1,7 +1,84 @@
 body{
   padding-top:80px;
   word-wrap:break-word;
+  background-color: #B38867;
 }
 img{
   height: 200px;
+}
+html{
+  font-size: 62.5%;
+}
+.headerText {
+  color: #AF4425;
+  padding-right: 1rem;
+}
+
+.messages {
+  list-style-type: none;
+  padding: 0;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 1.5rem;
+}
+
+.message .left-column {
+  width: 60%;
+}
+
+.message .right-column {
+  width: 40%;
+}
+
+.addInput {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%; /* Adjust as needed */
+}
+
+.addInput label {
+  margin-bottom: 5px;
+}
+
+.addInput textarea,
+.addInput input,
+.addInput select {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.addInput button {
+  width: 100%;
+}
+.dateEntry,
+.periodEntry,
+.mood {
+  display: block;
+  font-size: 4rem;
+}
+.mood {
+  font-size: 3rem;
+}
+h1 {
+  color: #AF4425;
+  font-size: 5rem;
+  text-transform: uppercase;
+  letter-spacing: 1rem;
+}
+.page-header p {
+  color: white;
+  margin: 1rem 20rem;
+}
+.fa-trash {
+  color: #AF4425;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bolder;
 }

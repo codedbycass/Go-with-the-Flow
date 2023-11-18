@@ -8,91 +8,94 @@
 </head>
 <body>
 <div class="container">
-
+    <header>
     <div class="page-header text-center">
         <h1>Go With the Flow</h1>
+        <p>This app is for menstruating people to monitor their menstrual cycles and overall sexual health and wellness. You can log entries starting with the date and your period status. By logging daily, you gain insights about your behavioral patterns throughout your cycle.</p>
+        <p>The app prioritizes security, requiring user login to safeguard sensitive health information.</p>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
-
-    <div class="row">
-
+    </header>
+    <section class="wellnessInput">
+      <h2>Log your day</h2>
+      <% if (user.local.email) { %>
+        <form action="/messages" method="POST">
+          <input type="datetime-local" name="currentDate" required>
+          <!-- <input type="text" name="periodStatus"> -->
+          <label for="periodStatus">Period Status:</label>
+          <select id="periodStatus" name="periodStatus" required>
+            <option value="No Period">No Period</option>
+            <option value="Period Start">Period Start</option>
+            <option value="Period End">Period End</option>
+            <option value="Period Spotty">Period Spotty</option>
+            <option value="Period Light">Period Light</option>
+            <option value="Period Heavy">Period Heavy</option>
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+      <!-- </div> end of col-sm-6-->
+      <% } %>
+      </section>
+      <section class="wellnessLog">
+      <h3>Your logs</h3>
+      <ul class="messages">
+      <% for(var i=0; i<messages.length; i++) {%>
+        <li class="message">
+          <div class="left-column">
+          <span class="dateEntry"><%= messages[i].currentDate %></span>
+          <span class="periodEntry"><%= messages[i].periodStatus %></span>
+          <span class="mood"><span class="headerText">I feel:</span><span><%= messages[i].mood %></span></span>
+          <span class="headerText details">Hours slept:</span><span><%= messages[i].sleep %></span>
+          <span class="headerText details">Physical Activity:</span><span><%= messages[i].physical %></span>
+          <span class="headerText details">Water Intake:</span><span><%= messages[i].water %></span>
+          <span class="headerText details">Sexual Activity:</span><span><%= messages[i].sexual %></span>
+          </div>
+          <div class="right-column">
+          <span class="addInput">
+            <div>
+            <form action="/messages/mood?_method=PUT" method="POST">
+              <input type="hidden" name="id" value="<%= messages[i]._id %>">
+              <label for="mood">How are you feeling</label>
+              <textarea placeholder="How are you feeling?" name="mood" id="mood" required></textarea>
+              <label for="physical">How did you move today</label>
+              <textarea placeholder="Physical Activity" name="physical" id="physical" required></textarea>
+              <label for="sleep">Sleep</label>
+              <input type="number" placeholder="Hours" name="sleep" id="sleep" required>
+              <label for="water">Water Intake</label>
+              <input type="number" placeholder="OZ" name="water" id="water" required>
+              <label for="sexual">Sexual Activity</label>
+              <select id="sexual" name="sexual" required>
+                <option value="None">None</option>
+                <option value="Partnered">Protected Partnered</option>
+                <option value="Unprotected Partnered">Unprotected Partnered</option>
+                <option value="Solo">Solo</option>
+              </select>
+              <button type="submit">Submit</button>
+            </form>
+            </div>
+          </span>
+          <span><button class="fa fa-trash" aria-hidden="true" data-id="<%= messages[i]._id %>">✖ Remove Entry</button></span>
+          </div>
+        </li>
+      <% } %>
+      </ul>
+      </section>
         <!-- LOCAL INFORMATION -->
         <!-- <div class="col-sm-6"> -->
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
-            </div>
-        <!-- </div> end of col-sm-6-->
-        <!-- <div class="col-sm-6"> -->
-          <h3>Period Details</h3>
-          <ul class="messages">
-          <% for(var i=0; i<messages.length; i++) {%>
-            <li class="message">
-              <span><%= messages[i].currentDate %></span>
-              <span><%= messages[i].periodStatus %></span>
-              <span><%= messages[i].mood %></span>
-              <span><%= messages[i].sleep %></span>
-              <span><%= messages[i].physical %></span>
-              <span><%= messages[i].water %></span>
-              <span><%= messages[i].sexual %></span>
-              <span>
-                <form action="/messages/mood?_method=PUT" method="POST">
-                  <input type="hidden" name="id" value="<%= messages[i]._id %>">
-                  <label for="mood">How are you feeling</label>
-                  <input type="text" placeholder="How are you feeling?" name="mood" id="mood" required>
-                  <label for="physical">How did you move today</label>
-                  <input type="text" placeholder="Physical Activity" name="physical" id="physical" required>
-                  <label for="sleep">Sleep</label>
-                  <input type="number" placeholder="Hours" name="sleep" id="sleep" required>
-                  <label for="water">Water Intake</label>
-                  <input type="number" placeholder="OZ" name="water" id="water" required>
-                  <label for="sexual">Sexual Activity</label>
-                  <select id="sexual" name="sexual" required>
-                    <option value="None">None</option>
-                    <option value="Partnered">Protected Partnered</option>
-                    <option value="Unprotected Partnered">Unprotected Partnered</option>
-                    <option value="Solo">Solo</option>
-                  </select>
-                  <button type="submit">Submit</button>
-                </form>
-              </span>
-              <span><button class="fa fa-trash" aria-hidden="true" data-id="<%= messages[i]._id %>">Delete</button></span>
-            </li>
-          <% } %>
-          </ul>
-
-          <h2>Log your period</h2>
-        <% if (user.local.email) { %>
-          <form action="/messages" method="POST">
-            <input type="datetime-local" name="currentDate" required>
-            <!-- <input type="text" name="periodStatus"> -->
-            <label for="periodStatus">Period Status:</label>
-            <select id="periodStatus" name="periodStatus" required>
-              <option value="No Period">No Period</option>
-              <option value="Period Start">Period Start</option>
-              <option value="Period End">Period End</option>
-              <option value="Period Spotty">Period Spotty</option>
-              <option value="Period Light">Period Light</option>
-              <option value="Period Heavy">Period Heavy</option>
-            </select>
-            <button type="submit">Submit</button>
-          </form>
-        <!-- </div> end of col-sm-6-->
-        <% } %>
-
-</div>
+          <div class="well">
+            <h3><span class="fa fa-user"></span> Local</h3>
+            <% if (user.local.email) { %>
+                <p>
+                    <strong>id</strong>: <%= user._id %><br>
+                    <strong>email</strong>: <%= user.local.email %><br>
+                    <strong>password</strong>: <%= user.local.password %>
+                </p>
+                <a href="/unlink/local" class="btn btn-default">Unlink</a>
+            <% } else { %>
+                <a href="/connect/local" class="btn btn-default">Connect Local</a>
+            <% } %>
+        </div>
+    <!-- </div> end of col-sm-6-->
 
 <script src="main.js"></script>
 
